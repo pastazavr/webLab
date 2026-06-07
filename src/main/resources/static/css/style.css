@@ -1,0 +1,222 @@
+
+body {
+    font-family: 'Lato', sans-serif;
+    color: #2d2d2d;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* ---- Navbar ---- */
+.navbar .nav-link {
+    font-size: .9rem;
+    letter-spacing: .03em;
+    padding: .5rem .75rem;
+    transition: color .2s;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #d4a96a !important;
+}
+
+/* ---- Hero Section ---- */
+.hero-section {
+    min-height: 88vh;
+    background:
+        linear-gradient(rgba(28,14,8,.65), rgba(28,14,8,.65)),
+        url('https://picsum.photos/seed/cafe-hero/1920/1080') center/cover no-repeat;
+    position: relative;
+}
+.hero-overlay {
+    display: none;
+}
+.hero-subtitle {
+    font-size: .9rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: #d4a96a;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    text-shadow: 0 2px 20px rgba(0,0,0,.4);
+}
+
+/* ---- Section Headers ---- */
+.section-pre {
+    font-size: .8rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #8c6239;
+    font-weight: 700;
+    margin-bottom: .4rem;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c1810;
+    margin-bottom: .75rem;
+}
+.section-divider {
+    width: 50px;
+    height: 3px;
+    background: #d4a96a;
+    margin: 0 auto .5rem;
+    border-radius: 2px;
+}
+
+/* ---- Feature Cards ---- */
+.feature-card {
+    border-radius: 12px;
+    background: #fff;
+    transition: box-shadow .25s, transform .25s;
+}
+.feature-card:hover {
+    box-shadow: 0 8px 32px rgba(140,98,57,.12);
+    transform: translateY(-4px);
+}
+.feature-icon {
+    width: 56px;
+    height: 56px;
+    background: #faf0e4;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* ---- Menu Cards ---- */
+.menu-card {
+    border-radius: 12px;
+    transition: box-shadow .25s, transform .2s;
+}
+.menu-card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,.1);
+    transform: translateY(-3px);
+}
+
+/* ---- Gallery ---- */
+.gallery-thumb img {
+    transition: transform .4s ease;
+}
+.gallery-thumb:hover img {
+    transform: scale(1.07);
+}
+.gallery-card {
+    border-radius: 12px;
+    transition: box-shadow .25s, transform .2s;
+    position: relative;
+}
+.gallery-card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,.12);
+    transform: translateY(-3px);
+}
+.gallery-img {
+    transition: transform .4s ease;
+}
+.gallery-card:hover .gallery-img {
+    transform: scale(1.05);
+}
+.gallery-admin-actions {
+    opacity: 0;
+    transition: opacity .2s;
+    background: rgba(0,0,0,.35);
+    border-radius: 0 0 0 8px;
+}
+.gallery-card:hover .gallery-admin-actions {
+    opacity: 1;
+}
+
+/* ---- Footer links ---- */
+.footer-link:hover {
+    color: #d4a96a !important;
+}
+
+/* ---- Page Hero (inner pages) ---- */
+.page-hero {
+    padding: 3rem 0;
+}
+
+/* ---- Dynamic Page content ---- */
+.dynamic-page-content {
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+.dynamic-page-content h2,
+.dynamic-page-content h3 {
+    margin-top: 1.75rem;
+    color: #2c1810;
+}
+.dynamic-page-content img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+.dynamic-page-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+.dynamic-page-content table th,
+.dynamic-page-content table td {
+    border: 1px solid #e0d6cc;
+    padding: .5rem .75rem;
+}
+.dynamic-page-content table th {
+    background: #faf6f0;
+}
+
+/* ---- Nav pills (menu tabs) ---- */
+.nav-pills .nav-link {
+    color: #8c6239;
+    border: 1px solid #e0d6cc;
+    font-size: .9rem;
+}
+.nav-pills .nav-link.active,
+.nav-pills .nav-link:hover {
+    background-color: #8c6239 !important;
+    border-color: #8c6239 !important;
+    color: #fff !important;
+}
+
+/* ---- Buttons ---- */
+.btn-outline-dark:hover {
+    background-color: #2c1810;
+    border-color: #2c1810;
+}
+
+/* ---- Admin sidebar feel ---- */
+.list-group-item-action:hover {
+    background-color: #faf6f0;
+}
+
+/* ---- Responsive tweaks ---- */
+@media (max-width: 576px) {
+    .hero-section {
+        min-height: 70vh;
+    }
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    .section-title {
+        font-size: 1.6rem;
+    }
+}
+
+/* ---- Scrollbar (Chrome/Edge) ---- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f5f0e8;
+}
+::-webkit-scrollbar-thumb {
+    background: #c9a87c;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #8c6239;
+}

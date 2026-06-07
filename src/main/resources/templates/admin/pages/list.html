@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/head :: head('Управление страницами')}"></head>
+<body class="d-flex flex-column min-vh-100" style="background:#f8f5f2;">
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4 flex-grow-1">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a th:href="@{/admin}" class="text-decoration-none">Панель</a></li>
+            <li class="breadcrumb-item active">Страницы</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0" style="font-family:'Playfair Display',serif;">
+            <i class="fas fa-file-alt me-2" style="color:#d4a96a;"></i>Динамические страницы
+        </h3>
+        <a th:href="@{/admin/pages/new}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Новая страница
+        </a>
+    </div>
+
+    <div class="alert alert-success alert-dismissible fade show" th:if="${success}" th:text="${success}">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead style="background:#faf6f0;">
+                    <tr>
+                        <th class="ps-4">#</th>
+                        <th>Заголовок</th>
+                        <th>Slug (URL)</th>
+                        <th class="text-center">Видимость</th>
+                        <th>Создана</th>
+                        <th>Обновлена</th>
+                        <th class="text-center pe-4">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="page, stat : ${pages}">
+                        <td class="ps-4 text-muted small" th:text="${stat.count}">1</td>
+                        <td class="fw-semibold" th:text="${page.title}">Заголовок</td>
+                        <td>
+                            <a th:href="@{/pages/{slug}(slug=${page.slug})}"
+                               class="text-decoration-none small font-monospace"
+                               target="_blank"
+                               th:text="'/pages/' + ${page.slug}">/pages/slug</a>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge" th:if="${page.visible}"
+                                  style="background:#198754;">Видна</span>
+                            <span class="badge bg-secondary" th:unless="${page.visible}">Скрыта</span>
+                        </td>
+                        <td class="text-muted small"
+                            th:text="${page.createdAt != null} ? ${#temporals.format(page.createdAt,'dd.MM.yyyy')} : '—'">—</td>
+                        <td class="text-muted small"
+                            th:text="${page.updatedAt != null} ? ${#temporals.format(page.updatedAt,'dd.MM.yyyy')} : '—'">—</td>
+                        <td class="text-center pe-4">
+                            <a th:href="@{/admin/pages/{id}/edit(id=${page.id})}"
+                               class="btn btn-sm btn-outline-secondary me-1">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form th:action="@{/admin/pages/{id}/delete(id=${page.id})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('Удалить страницу «' + this.dataset.title + '»?')"
+                                  th:data-title="${page.title}">
+                                <button class="btn btn-sm btn-outline-danger" type="submit">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${pages == null or #lists.isEmpty(pages)}">
+                        <td colspan="7" class="text-center text-muted py-5">
+                            <i class="fas fa-file-alt fa-2x d-block mb-2 opacity-25"></i>
+                            Страниц пока нет. <a th:href="@{/admin/pages/new}">Создать первую?</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

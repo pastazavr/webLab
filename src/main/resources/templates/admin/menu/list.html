@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/head :: head('Управление меню')}"></head>
+<body class="d-flex flex-column min-vh-100" style="background:#f8f5f2;">
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4 flex-grow-1">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a th:href="@{/admin}" class="text-decoration-none">Панель</a></li>
+            <li class="breadcrumb-item active">Меню</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0" style="font-family:'Playfair Display',serif;">
+            <i class="fas fa-utensils me-2" style="color:#d4a96a;"></i>Управление меню
+        </h3>
+        <a th:href="@{/admin/menu/new}" class="btn btn-warning">
+            <i class="fas fa-plus me-2"></i>Добавить позицию
+        </a>
+    </div>
+
+    <div class="alert alert-success alert-dismissible fade show" th:if="${success}" th:text="${success}">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead style="background:#faf6f0;">
+                    <tr>
+                        <th class="ps-4" style="width:70px;">Фото</th>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Описание</th>
+                        <th class="text-end">Цена</th>
+                        <th class="text-center">Наличие</th>
+                        <th class="text-center pe-4">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${items}">
+                        <td class="ps-4">
+                            <img th:src="${item.imageUrl}" th:alt="${item.name}"
+                                 class="rounded" style="width:50px;height:50px;object-fit:cover;"
+                                 onerror="this.src='https://picsum.photos/seed/food/50/50'"/>
+                        </td>
+                        <td class="fw-semibold" th:text="${item.name}">Название</td>
+                        <td>
+                            <span class="badge" style="background:#d4a96a; color:#1a0f08;"
+                                  th:text="${item.category}">Категория</span>
+                        </td>
+                        <td class="text-muted small"
+                            th:text="${item.description != null} ? ${#strings.abbreviate(item.description,60)} : '—'">—</td>
+                        <td class="text-end fw-bold" style="color:#8c6239;"
+                            th:text="${item.price} + ' ₽'">0 ₽</td>
+                        <td class="text-center">
+                            <span class="badge" th:if="${item.available}" style="background:#198754;">Есть</span>
+                            <span class="badge bg-secondary" th:unless="${item.available}">Нет</span>
+                        </td>
+                        <td class="text-center pe-4">
+                            <a th:href="@{/admin/menu/{id}/edit(id=${item.id})}"
+                               class="btn btn-sm btn-outline-secondary me-1">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form th:action="@{/admin/menu/{id}/delete(id=${item.id})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('Удалить позицию?')">
+                                <button class="btn btn-sm btn-outline-danger" type="submit">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${items == null or #lists.isEmpty(items)}">
+                        <td colspan="7" class="text-center text-muted py-5">
+                            <i class="fas fa-utensils fa-2x d-block mb-2 opacity-25"></i>
+                            Меню пусто. <a th:href="@{/admin/menu/new}">Добавить позицию?</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

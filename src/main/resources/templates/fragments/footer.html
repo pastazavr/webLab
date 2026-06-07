@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="footer" class="text-white py-5 mt-auto" style="background-color:#bf613b;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <i class="fas fa-mug-hot fs-4" style="color:#d4a96a;"></i>
+                    <span class="fw-bold fs-5" style="font-family:'Playfair Display',serif; color:#d4a96a;">Кафе Уют</span>
+                </div>
+                <p class="text-muted small">
+                    Место, где каждая чашка кофе — маленькое счастье.<br>
+                    Добро пожаловать в нашу уютную семью!
+                </p>
+                <div class="d-flex gap-3 mt-3">
+                    <a href="#" class="text-muted fs-5"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-muted fs-5"><i class="fab fa-vk"></i></a>
+                    <a href="#" class="text-muted fs-5"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h6 class="text-uppercase fw-bold mb-3" style="color:#d4a96a; letter-spacing:.08em;">Навигация</h6>
+                <ul class="list-unstyled small">
+                    <li class="mb-1"><a th:href="@{/}" class="text-muted text-decoration-none footer-link">Главная</a></li>
+                    <li class="mb-1"><a th:href="@{/menu}" class="text-muted text-decoration-none footer-link">Меню</a></li>
+                    <li class="mb-1"><a th:href="@{/gallery}" class="text-muted text-decoration-none footer-link">Галерея</a></li>
+                    <li class="mb-1"><a th:href="@{/contacts}" class="text-muted text-decoration-none footer-link">Контакты</a></li>
+                    <li class="mb-1"><a th:href="@{/feedback}" class="text-muted text-decoration-none footer-link">Обратная связь</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6 class="text-uppercase fw-bold mb-3" style="color:#d4a96a; letter-spacing:.08em;">Контакты</h6>
+                <ul class="list-unstyled small text-muted">
+                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2" style="color:#d4a96a;"></i>ул. Кофейная, 42, Москва</li>
+                    <li class="mb-2"><i class="fas fa-phone me-2" style="color:#d4a96a;"></i>+7 (495) 123-45-67</li>
+                    <li class="mb-2"><i class="fas fa-envelope me-2" style="color:#d4a96a;"></i>hello@cafe-uyut.ru</li>
+                    <li class="mb-2"><i class="fas fa-clock me-2" style="color:#d4a96a;"></i>Пн–Пт: 8:00 – 22:00</li>
+                    <li><i class="fas fa-clock me-2" style="color:#d4a96a;"></i>Сб–Вс: 9:00 – 23:00</li>
+                </ul>
+            </div>
+        </div>
+        <hr style="border-color:#3d2b1f;" class="my-4"/>
+        <p class="text-center text-muted small mb-0">
+            &copy; 2026 Кафе Уют. Все права защищены.
+            <span class="mx-2">|</span>
+            <a th:href="@{/feedback}" class="text-muted">Обратная связь</a>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

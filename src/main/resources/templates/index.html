@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/head :: head('Главная')}"></head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<!-- Hero section -->
+<section class="hero-section d-flex align-items-center">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative text-white text-center py-5">
+        <p class="hero-subtitle mb-3">Добро пожаловать</p>
+        <h1 class="hero-title display-3 fw-bold mb-4">Кафе <span style="color:#d4a96a;">Уют</span></h1>
+        <p class="lead mb-5 mx-auto" style="max-width:600px;">
+            Место, где время замедляется, а каждая чашка кофе согревает душу.
+            Авторское меню, домашняя атмосфера, живая музыка.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a th:href="@{/menu}" class="btn btn-lg px-5 py-3" style="background:#d4a96a; color:#1a0f08; font-weight:700;">
+                <i class="fas fa-utensils me-2"></i>Наше меню
+            </a>
+            <a th:href="@{/feedback}" class="btn btn-outline-light btn-lg px-5 py-3">
+                <i class="fas fa-calendar-alt me-2"></i>Забронировать столик
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-mug-hot fa-2x" style="color:#d4a96a;"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2" style="font-family:'Playfair Display',serif;">Авторский кофе</h4>
+                    <p class="text-muted">Зерно от лучших мировых ферм. Наши бариста прошли международную сертификацию.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-leaf fa-2x" style="color:#d4a96a;"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2" style="font-family:'Playfair Display',serif;">Свежие продукты</h4>
+                    <p class="text-muted">Только сезонные, фермерские продукты. Меню обновляется каждый сезон.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-music fa-2x" style="color:#d4a96a;"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2" style="font-family:'Playfair Display',serif;">Живая музыка</h4>
+                    <p class="text-muted">По пятницам и субботам — живые выступления джазовых и акустических исполнителей.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Menu -->
+<section class="py-5" style="background:#faf6f0;">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <p class="section-pre">Попробуйте</p>
+            <h2 class="section-title">Популярные блюда</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="row g-4" th:if="${featuredItems != null and !#lists.isEmpty(featuredItems)}">
+            <div class="col-md-4" th:each="item : ${featuredItems}">
+                <div class="card border-0 shadow-sm h-100 menu-card">
+                    <img th:src="${item.imageUrl}"
+                         th:alt="${item.name}"
+                         class="card-img-top"
+                         style="height:220px; object-fit:cover;"
+                         onerror="this.src='https://picsum.photos/seed/food/400/300'"/>
+                    <div class="card-body">
+                        <span class="badge mb-2" style="background:#d4a96a; color:#1a0f08;" th:text="${item.category}">Категория</span>
+                        <h5 class="card-title fw-bold" th:text="${item.name}">Название</h5>
+                        <p class="card-text text-muted small" th:text="${item.description}">Описание</p>
+                    </div>
+                    <div class="card-footer bg-white border-0 pb-3">
+                        <span class="fw-bold fs-5" style="color:#8c6239;"
+                              th:text="${item.price} + ' ₽'">250 ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a th:href="@{/menu}" class="btn btn-outline-dark btn-lg px-5">
+                Полное меню <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- About strip -->
+<section class="py-5 text-white" style="background:#bf613b;">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-md-6">
+                <p class="section-pre" style="color:#d4a96a;">Наша история</p>
+                <h2 class="fw-bold mb-4" style="font-family:'Playfair Display',serif;">
+                    С 2018 года — место для настоящего отдыха
+                </h2>
+                <p class="text-muted mb-3">
+                    Кафе «Уют» открылось в маленьком переулке Москвы с одной идеей: создать место, куда хочется
+                    возвращаться снова и снова. Уютные диваны, аромат свежемолотого кофе, домашняя выпечка —
+                    всё это мы бережём для вас каждый день.
+                </p>
+                <p class="text-muted mb-4">
+                    Наша команда состоит из увлечённых профессионалов: шеф-повар с опытом работы в Европе,
+                    сертифицированные бариста и кондитер, влюблённая в своё дело.
+                </p>
+                <a th:href="@{/contacts}" class="btn px-4 py-2" style="background:#d4a96a; color:#1a0f08; font-weight:600;">
+                    Найти нас <i class="fas fa-map-marker-alt ms-2"></i>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <div class="row g-3">
+                    <div class="col-6 text-center p-4 rounded" style="background:#3d2b1f;">
+                        <div class="display-4 fw-bold" style="color:#d4a96a;">6+</div>
+                        <div class="text-muted small">лет работы</div>
+                    </div>
+                    <div class="col-6 text-center p-4 rounded" style="background:#3d2b1f;">
+                        <div class="display-4 fw-bold" style="color:#d4a96a;">80+</div>
+                        <div class="text-muted small">позиций в меню</div>
+                    </div>
+                    <div class="col-6 text-center p-4 rounded" style="background:#3d2b1f;">
+                        <div class="display-4 fw-bold" style="color:#d4a96a;">4.9</div>
+                        <div class="text-muted small">рейтинг на картах</div>
+                    </div>
+                    <div class="col-6 text-center p-4 rounded" style="background:#3d2b1f;">
+                        <div class="display-4 fw-bold" style="color:#d4a96a;">12K+</div>
+                        <div class="text-muted small">гостей в год</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery preview -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <p class="section-pre">Атмосфера</p>
+            <h2 class="section-title">Фотогалерея</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="row g-3" th:if="${galleryPreview != null and !#lists.isEmpty(galleryPreview)}">
+            <div class="col-6 col-md-4" th:each="gitem : ${galleryPreview}">
+                <div class="gallery-thumb overflow-hidden rounded">
+                    <img th:src="${gitem.imageUrl}"
+                         th:alt="${gitem.title}"
+                         class="img-fluid w-100"
+                         style="height:200px; object-fit:cover;"
+                         onerror="this.src='https://picsum.photos/seed/cafe/400/300'"/>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a th:href="@{/gallery}" class="btn btn-outline-dark btn-lg px-5">
+                Вся галерея <i class="fas fa-images ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 text-center text-white" style="background:#8c6239;">
+    <div class="container py-3">
+        <h2 class="fw-bold mb-3" style="font-family:'Playfair Display',serif;">Есть вопрос или пожелание?</h2>
+        <p class="mb-4 opacity-75">Напишите нам — мы всегда рады обратной связи и готовы помочь с бронированием.</p>
+        <a th:href="@{/feedback}" class="btn btn-light btn-lg px-5 fw-bold" style="color:#8c6239;">
+            <i class="fas fa-envelope me-2"></i>Написать нам
+        </a>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

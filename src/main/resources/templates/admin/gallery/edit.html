@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/head :: head(${isNew} ? 'Добавить фото' : 'Редактировать фото')}"></head>
+<body class="d-flex flex-column min-vh-100" style="background:#f8f5f2;">
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4 flex-grow-1">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a th:href="@{/admin}" class="text-decoration-none">Панель</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/admin/gallery}" class="text-decoration-none">Галерея</a></li>
+            <li class="breadcrumb-item active" th:text="${isNew} ? 'Добавить фото' : 'Редактировать'">Добавить</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <h3 class="fw-bold mb-4" style="font-family:'Playfair Display',serif;"
+                th:text="${isNew} ? 'Добавить фото в галерею' : 'Редактировать фото'">Заголовок</h3>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <form th:action="${isNew} ? @{/admin/gallery/create} : @{/admin/gallery/{id}/update(id=${item.id})}"
+                          th:object="${item}" method="post">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Заголовок <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control"
+                                   th:field="*{title}"
+                                   th:classappend="${#fields.hasErrors('title')} ? ' is-invalid'"
+                                   placeholder="Уютный интерьер"/>
+                            <div class="invalid-feedback" th:errors="*{title}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Описание</label>
+                            <textarea class="form-control" th:field="*{description}" rows="2"
+                                      placeholder="Краткое описание фотографии"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">URL изображения <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control"
+                                   th:field="*{imageUrl}"
+                                   th:classappend="${#fields.hasErrors('imageUrl')} ? ' is-invalid'"
+                                   placeholder="https://picsum.photos/seed/my-cafe/800/600"
+                                   id="imageUrlInput"/>
+                            <div class="invalid-feedback" th:errors="*{imageUrl}"></div>
+                            <div class="form-text">Прямая ссылка на изображение (jpg, png, webp).</div>
+                        </div>
+
+                        <!-- Image preview -->
+                        <div class="mb-3" id="previewBox" th:if="${item.imageUrl != null and !item.imageUrl.isEmpty()}">
+                            <label class="form-label text-muted small">Предпросмотр</label>
+                            <div class="rounded overflow-hidden" style="height:200px;">
+                                <img th:src="${item.imageUrl}" id="previewImg"
+                                     class="w-100 h-100" style="object-fit:cover;"
+                                     onerror="this.parentElement.style.display='none'"/>
+                            </div>
+                        </div>
+                        <div class="mb-3" id="previewBoxNew" th:unless="${item.imageUrl != null and !item.imageUrl.isEmpty()}"
+                             style="display:none;">
+                            <label class="form-label text-muted small">Предпросмотр</label>
+                            <div class="rounded overflow-hidden" style="height:200px;">
+                                <img id="previewImgNew" class="w-100 h-100" style="object-fit:cover;"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Порядок отображения</label>
+                            <input type="number" class="form-control" th:field="*{orderIndex}"
+                                   min="0" placeholder="0"/>
+                            <div class="form-text">Меньшее значение — выше в галерее.</div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn px-4 fw-semibold"
+                                    style="background:#8c6239; color:#fff;"
+                                    th:text="${isNew} ? 'Добавить фото' : 'Сохранить изменения'">Сохранить</button>
+                            <a th:href="@{/admin/gallery}" class="btn btn-outline-secondary">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Live preview from URL input
+const urlInput = document.getElementById('imageUrlInput');
+if (urlInput) {
+    urlInput.addEventListener('input', function () {
+        const url = this.value.trim();
+        const box = document.getElementById('previewBoxNew') || document.getElementById('previewBox');
+        const img = document.getElementById('previewImgNew') || document.getElementById('previewImg');
+        if (url && img) {
+            img.src = url;
+            if (box) box.style.display = 'block';
+        }
+    });
+}
+</script>
+</body>
+</html>

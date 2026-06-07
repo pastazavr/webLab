@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/head :: head('Контакты')}"></head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<div class="page-hero text-white text-center py-5" style="background:linear-gradient(135deg,#2c1810,#8c6239);">
+    <div class="container py-3">
+        <h1 class="display-5 fw-bold mb-2" style="font-family:'Playfair Display',serif;">Контакты</h1>
+        <p class="lead opacity-75 mb-0">Мы всегда рады вас видеть</p>
+    </div>
+</div>
+
+<main class="container py-5 flex-grow-1">
+    <div class="row g-5">
+        <!-- Contact info -->
+        <div class="col-lg-5">
+            <h3 class="fw-bold mb-4" style="font-family:'Playfair Display',serif;">Как нас найти</h3>
+
+            <div class="d-flex align-items-start mb-4">
+                <div class="contact-icon me-3">
+                    <i class="fas fa-map-marker-alt fa-lg" style="color:#d4a96a;"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">Адрес</h6>
+                    <p class="text-muted mb-0">ул. Кофейная, дом 42<br>Москва, 101000</p>
+                    <p class="text-muted small">Ближайшее метро: Китай-город (5 мин пешком)</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-start mb-4">
+                <div class="contact-icon me-3">
+                    <i class="fas fa-phone fa-lg" style="color:#d4a96a;"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">Телефон</h6>
+                    <a href="tel:+74951234567" class="text-decoration-none text-dark">+7 (495) 123-45-67</a><br>
+                    <a href="tel:+74951234568" class="text-decoration-none text-muted small">+7 (495) 123-45-68 (доп.)</a>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-start mb-4">
+                <div class="contact-icon me-3">
+                    <i class="fas fa-envelope fa-lg" style="color:#d4a96a;"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">Email</h6>
+                    <a href="mailto:hello@cafe-uyut.ru" class="text-decoration-none text-dark">hello@cafe-uyut.ru</a><br>
+                    <a href="mailto:booking@cafe-uyut.ru" class="text-decoration-none text-muted small">booking@cafe-uyut.ru (бронирование)</a>
+                </div>
+            </div>
+
+            <!-- Working hours table -->
+            <h5 class="fw-bold mt-4 mb-3" style="font-family:'Playfair Display',serif;">Часы работы</h5>
+            <table class="table table-sm table-borderless">
+                <tbody>
+                    <tr>
+                        <td class="text-muted ps-0">Понедельник – Пятница</td>
+                        <td class="fw-semibold text-end">8:00 – 22:00</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted ps-0">Суббота</td>
+                        <td class="fw-semibold text-end">9:00 – 23:00</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted ps-0">Воскресенье</td>
+                        <td class="fw-semibold text-end">9:00 – 23:00</td>
+                    </tr>
+                    <tr class="border-top">
+                        <td class="text-muted ps-0 pt-3">Кухня</td>
+                        <td class="fw-semibold text-end pt-3">до 21:30 (Пн–Пт)<br>до 22:30 (Сб–Вс)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Social -->
+            <h5 class="fw-bold mt-4 mb-3">Мы в социальных сетях</h5>
+            <div class="d-flex gap-3">
+                <a href="#" class="btn btn-outline-dark btn-sm px-3">
+                    <i class="fab fa-instagram me-1"></i>Instagram
+                </a>
+                <a href="#" class="btn btn-outline-dark btn-sm px-3">
+                    <i class="fab fa-vk me-1"></i>ВКонтакте
+                </a>
+                <a href="#" class="btn btn-outline-dark btn-sm px-3">
+                    <i class="fab fa-telegram me-1"></i>Telegram
+                </a>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="col-lg-7">
+            <h3 class="fw-bold mb-4" style="font-family:'Playfair Display',serif;">На карте</h3>
+            <div class="rounded-3 overflow-hidden shadow-sm mb-4" style="height:400px; background:#f0e6d3; display:flex; align-items:center; justify-content:center;">
+                <!-- Placeholder map — in production embed real Google/Yandex Maps iframe -->
+                <div class="text-center text-muted p-4">
+                    <i class="fas fa-map-marked-alt fa-4x mb-3 d-block" style="color:#d4a96a;"></i>
+                    <p class="fw-semibold mb-1">Кафе Уют</p>
+                    <p class="small">ул. Кофейная, 42, Москва</p>
+                    <a href="https://yandex.ru/maps" target="_blank" class="btn btn-sm btn-outline-dark mt-2">
+                        <i class="fas fa-external-link-alt me-1"></i>Открыть на Яндекс.Картах
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick info cards -->
+            <div class="row g-3">
+                <div class="col-sm-4">
+                    <div class="text-center p-3 rounded-3" style="background:#faf6f0;">
+                        <i class="fas fa-parking fa-lg mb-2 d-block" style="color:#8c6239;"></i>
+                        <small class="fw-semibold">Бесплатная парковка</small><br>
+                        <small class="text-muted">рядом с кафе</small>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="text-center p-3 rounded-3" style="background:#faf6f0;">
+                        <i class="fas fa-wifi fa-lg mb-2 d-block" style="color:#8c6239;"></i>
+                        <small class="fw-semibold">Бесплатный Wi-Fi</small><br>
+                        <small class="text-muted">пароль у бариста</small>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="text-center p-3 rounded-3" style="background:#faf6f0;">
+                        <i class="fas fa-wheelchair fa-lg mb-2 d-block" style="color:#8c6239;"></i>
+                        <small class="fw-semibold">Доступная среда</small><br>
+                        <small class="text-muted">пандус на входе</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

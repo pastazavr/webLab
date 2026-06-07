@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/head :: head('Сообщения')}"></head>
+<body class="d-flex flex-column min-vh-100" style="background:#f8f5f2;">
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4 flex-grow-1">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a th:href="@{/admin}" class="text-decoration-none">Панель</a></li>
+            <li class="breadcrumb-item active">Обратная связь</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <h3 class="fw-bold mb-0" style="font-family:'Playfair Display',serif;">
+            <i class="fas fa-inbox me-2" style="color:#d4a96a;"></i>Сообщения
+        </h3>
+        <span class="badge rounded-pill fs-6" style="background:#ad1457;"
+              th:if="${unreadCount > 0}" th:text="${unreadCount} + ' новых'">0</span>
+    </div>
+
+    <div class="alert alert-success alert-dismissible fade show" th:if="${success}" th:text="${success}">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-top mb-0">
+                <thead style="background:#faf6f0;">
+                    <tr>
+                        <th class="ps-4" style="width:30px;"></th>
+                        <th>Отправитель</th>
+                        <th>Email / Телефон</th>
+                        <th>Сообщение</th>
+                        <th>Дата</th>
+                        <th class="text-center pe-4">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="msg : ${messages}"
+                        th:classappend="${!msg.read} ? ' table-warning'">
+                        <td class="ps-4 pt-3">
+                            <i class="fas fa-circle small" style="color:#ad1457;" th:unless="${msg.read}"
+                               title="Непрочитано"></i>
+                            <i class="fas fa-circle small text-muted opacity-25" th:if="${msg.read}"></i>
+                        </td>
+                        <td class="pt-3">
+                            <span class="fw-semibold" th:text="${msg.name}">Имя</span>
+                        </td>
+                        <td class="pt-3 small text-muted">
+                            <div th:text="${msg.email}">email</div>
+                            <div th:if="${msg.phone != null and !msg.phone.isEmpty()}" th:text="${msg.phone}">phone</div>
+                        </td>
+                        <td class="pt-3 small" style="max-width:320px; white-space:pre-wrap;"
+                            th:text="${msg.message}">Сообщение</td>
+                        <td class="pt-3 text-muted small text-nowrap"
+                            th:text="${#temporals.format(msg.createdAt,'dd.MM.yyyy HH:mm')}">01.01.2024</td>
+                        <td class="text-center pe-4 pt-2">
+                            <form th:action="@{/admin/feedback/{id}/read(id=${msg.id})}"
+                                  method="post" class="d-inline mb-1"
+                                  th:unless="${msg.read}">
+                                <button class="btn btn-sm btn-outline-secondary d-block mb-1 w-100" type="submit"
+                                        title="Отметить прочитанным">
+                                    <i class="fas fa-check me-1"></i>Прочитано
+                                </button>
+                            </form>
+                            <form th:action="@{/admin/feedback/{id}/delete(id=${msg.id})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('Удалить сообщение?')">
+                                <button class="btn btn-sm btn-outline-danger d-block w-100" type="submit">
+                                    <i class="fas fa-trash me-1"></i>Удалить
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${messages == null or #lists.isEmpty(messages)}">
+                        <td colspan="6" class="text-center text-muted py-5">
+                            <i class="fas fa-inbox fa-2x d-block mb-2 opacity-25"></i>
+                            Сообщений пока нет.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

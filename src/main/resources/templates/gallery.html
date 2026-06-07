@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/head :: head('Галерея')}"></head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<div class="page-hero text-white text-center py-5" style="background:linear-gradient(135deg,#2c1810,#8c6239);">
+    <div class="container py-3">
+        <h1 class="display-5 fw-bold mb-2" style="font-family:'Playfair Display',serif;">Фотогалерея</h1>
+        <p class="lead opacity-75 mb-0">Загляните к нам — хотя бы виртуально</p>
+    </div>
+</div>
+
+<main class="container py-5 flex-grow-1">
+    <!-- Admin button -->
+    <div class="d-flex justify-content-end mb-4" th:if="${isAdmin}">
+        <a th:href="@{/admin/gallery/new}" class="btn btn-warning">
+            <i class="fas fa-plus me-2"></i>Добавить фото
+        </a>
+    </div>
+
+    <!-- Gallery grid -->
+    <div class="row g-4" th:if="${galleryItems != null and !#lists.isEmpty(galleryItems)}">
+        <div class="col-sm-6 col-lg-4" th:each="item : ${galleryItems}">
+            <!-- Click to open modal -->
+            <div class="gallery-card card border-0 shadow-sm overflow-hidden"
+                 data-bs-toggle="modal"
+                 th:data-bs-target="'#modal-' + ${item.id}"
+                 style="cursor:pointer;">
+                <div class="overflow-hidden" style="height:260px;">
+                    <img th:src="${item.imageUrl}"
+                         th:alt="${item.title}"
+                         class="img-fluid w-100 h-100 gallery-img"
+                         style="object-fit:cover;"
+                         onerror="this.src='https://picsum.photos/seed/cafe/800/600'"/>
+                </div>
+                <div class="card-body py-3">
+                    <h6 class="card-title mb-1 fw-semibold" th:text="${item.title}">Заголовок</h6>
+                    <p class="card-text text-muted small mb-0" th:text="${item.description}">Описание</p>
+                </div>
+                <!-- Admin actions shown on hover via overlay -->
+                <div class="gallery-admin-actions position-absolute bottom-0 end-0 p-2 d-flex gap-1" th:if="${isAdmin}">
+                    <a th:href="@{/admin/gallery/{id}/edit(id=${item.id})}"
+                       class="btn btn-sm btn-light"
+                       onclick="event.stopPropagation()">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <form th:action="@{/admin/gallery/{id}/delete(id=${item.id})}"
+                          method="post" class="d-inline"
+                          onclick="event.stopPropagation()"
+                          onsubmit="return confirm('Удалить фото?')">
+                        <button class="btn btn-sm btn-danger" type="submit">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal lightbox -->
+            <div class="modal fade" th:id="'modal-' + ${item.id}" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content border-0" style="background:#1a0f08;">
+                        <div class="modal-header border-0 pb-0">
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-2">
+                            <img th:src="${item.imageUrl}" th:alt="${item.title}"
+                                 class="img-fluid w-100 rounded"
+                                 onerror="this.src='https://picsum.photos/seed/cafe/800/600'"/>
+                        </div>
+                        <div class="modal-footer border-0 pt-0 flex-column align-items-start px-4 pb-4">
+                            <h5 class="text-white mb-1 fw-bold" th:text="${item.title}">Заголовок</h5>
+                            <p class="text-muted small mb-0" th:text="${item.description}">Описание</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${galleryItems == null or #lists.isEmpty(galleryItems)}" class="text-center py-5 text-muted">
+        <i class="fas fa-images fa-3x mb-3 d-block opacity-25"></i>
+        <p>Галерея пока пуста.</p>
+        <a th:href="@{/admin/gallery/new}" th:if="${isAdmin}" class="btn btn-warning">Добавить первое фото</a>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

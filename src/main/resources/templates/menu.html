@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/head :: head('Меню')}"></head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<!-- Page header -->
+<div class="page-hero text-white text-center py-5" style="background:linear-gradient(135deg,#2c1810,#8c6239);">
+    <div class="container py-3">
+        <h1 class="display-5 fw-bold mb-2" style="font-family:'Playfair Display',serif;">Наше меню</h1>
+        <p class="lead opacity-75 mb-0">Свежие ингредиенты, авторские рецепты, большие порции</p>
+    </div>
+</div>
+
+<main class="container py-5 flex-grow-1">
+
+    <!-- Admin buttons -->
+    <div class="d-flex justify-content-end mb-4" th:if="${isAdmin}">
+        <a th:href="@{/admin/menu/new}" class="btn btn-warning">
+            <i class="fas fa-plus me-2"></i>Добавить позицию
+        </a>
+    </div>
+
+    <!-- Category tabs -->
+    <ul class="nav nav-pills mb-4 flex-wrap gap-2" id="menuTabs" role="tablist"
+        th:if="${categories != null and !#lists.isEmpty(categories)}">
+        <li class="nav-item" th:each="cat, iter : ${categories}">
+            <button class="nav-link"
+                    th:classappend="${iter.index == 0} ? ' active'"
+                    th:id="'tab-' + ${iter.index}"
+                    data-bs-toggle="pill"
+                    th:data-bs-target="'#pane-' + ${iter.index}"
+                    type="button" role="tab"
+                    th:text="${cat}">Категория</button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div th:each="cat, iter : ${categories}"
+             class="tab-pane fade"
+             th:classappend="${iter.index == 0} ? ' show active'"
+             th:id="'pane-' + ${iter.index}"
+             role="tabpanel">
+
+            <!-- Table view -->
+            <div class="table-responsive mb-4">
+                <table class="table table-hover align-middle">
+                    <thead style="background:#faf6f0;">
+                        <tr>
+                            <th style="width:80px;">Фото</th>
+                            <th>Название</th>
+                            <th>Описание</th>
+                            <th class="text-end">Цена</th>
+                            <th th:if="${isAdmin}" class="text-center">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${menuByCategory[cat]}">
+                            <td>
+                                <img th:src="${item.imageUrl}"
+                                     th:alt="${item.name}"
+                                     class="rounded"
+                                     style="width:60px; height:60px; object-fit:cover;"
+                                     onerror="this.src='https://picsum.photos/seed/food/60/60'"/>
+                            </td>
+                            <td>
+                                <span class="fw-semibold" th:text="${item.name}">Название</span>
+                                <span class="badge bg-secondary ms-1 small" th:unless="${item.available}">Нет в наличии</span>
+                            </td>
+                            <td class="text-muted small" th:text="${item.description}">Описание</td>
+                            <td class="text-end fw-bold" style="color:#8c6239; white-space:nowrap;"
+                                th:text="${item.price} + ' ₽'">250 ₽</td>
+                            <td class="text-center" th:if="${isAdmin}">
+                                <a th:href="@{/admin/menu/{id}/edit(id=${item.id})}"
+                                   class="btn btn-sm btn-outline-secondary me-1">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form th:action="@{/admin/menu/{id}/delete(id=${item.id})}"
+                                      method="post" class="d-inline"
+                                      onsubmit="return confirm('Удалить позицию?')">
+                                    <button class="btn btn-sm btn-outline-danger" type="submit">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(menuByCategory[cat])}">
+                            <td colspan="5" class="text-center text-muted py-4">В этой категории пока пусто.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${menuByCategory == null or #maps.isEmpty(menuByCategory)}" class="text-center py-5 text-muted">
+        <i class="fas fa-utensils fa-3x mb-3 d-block opacity-25"></i>
+        <p>Меню ещё не добавлено.</p>
+        <a th:href="@{/admin/menu/new}" th:if="${isAdmin}" class="btn btn-warning">Добавить позицию</a>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
