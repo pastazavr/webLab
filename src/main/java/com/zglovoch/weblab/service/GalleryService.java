@@ -3,6 +3,8 @@ package com.zglovoch.weblab.service;
 import com.zglovoch.weblab.model.GalleryItem;
 import com.zglovoch.weblab.repository.GalleryItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,8 @@ public class GalleryService {
 
     private final GalleryItemRepository repository;
 
+    /** Все фото галереи — кэшируются на 10 минут. */
+    @Cacheable("galleryItems")
     public List<GalleryItem> findAll() {
         return repository.findAllByOrderByOrderIndexAscCreatedAtAsc();
     }
@@ -23,11 +27,13 @@ public class GalleryService {
         return repository.findById(id);
     }
 
+    @CacheEvict(value = "galleryItems", allEntries = true)
     @Transactional
     public GalleryItem save(GalleryItem item) {
         return repository.save(item);
     }
 
+    @CacheEvict(value = "galleryItems", allEntries = true)
     @Transactional
     public void deleteById(Long id) {
         repository.deleteById(id);

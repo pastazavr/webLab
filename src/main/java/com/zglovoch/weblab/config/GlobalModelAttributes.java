@@ -1,7 +1,7 @@
 package com.zglovoch.weblab.config;
 
 import com.zglovoch.weblab.model.DynamicPage;
-import com.zglovoch.weblab.repository.DynamicPageRepository;
+import com.zglovoch.weblab.service.DynamicPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,12 +12,13 @@ import java.util.List;
 /**
  * Adds auth info and dynamic pages to every model — templates
  * use ${isAuthenticated}, ${isAdmin}, ${currentUser}, ${dynamicPages}.
+ * dynamicPages() uses DynamicPageService.findVisible() which is @Cacheable.
  */
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalModelAttributes {
 
-    private final DynamicPageRepository dynamicPageRepository;
+    private final DynamicPageService dynamicPageService;
 
     @ModelAttribute("isAuthenticated")
     public boolean isAuthenticated(Authentication auth) {
@@ -41,6 +42,6 @@ public class GlobalModelAttributes {
 
     @ModelAttribute("dynamicPages")
     public List<DynamicPage> dynamicPages() {
-        return dynamicPageRepository.findByVisibleTrueOrderByCreatedAtAsc();
+        return dynamicPageService.findVisible(); // результат берётся из @Cacheable кэша
     }
 }

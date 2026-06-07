@@ -3,6 +3,8 @@ package com.zglovoch.weblab.service;
 import com.zglovoch.weblab.model.DynamicPage;
 import com.zglovoch.weblab.repository.DynamicPageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,8 @@ public class DynamicPageService {
         return repository.findAll();
     }
 
+    /** Видимые страницы (список в навбаре) — кэшируются на 10 минут. */
+    @Cacheable("dynamicPages")
     public List<DynamicPage> findVisible() {
         return repository.findByVisibleTrueOrderByCreatedAtAsc();
     }
@@ -39,11 +43,13 @@ public class DynamicPageService {
         return repository.existsBySlug(slug);
     }
 
+    @CacheEvict(value = "dynamicPages", allEntries = true)
     @Transactional
     public DynamicPage save(DynamicPage page) {
         return repository.save(page);
     }
 
+    @CacheEvict(value = "dynamicPages", allEntries = true)
     @Transactional
     public void deleteById(Long id) {
         repository.deleteById(id);
